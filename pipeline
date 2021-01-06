@@ -1,0 +1,33 @@
+pipeline {
+    agent any
+
+    stages {
+        stage('sync github repo') {
+            steps {
+                git url: 'https://github.com/devrajaem/test1.git'
+                            }
+        }
+        
+        stage('Check contents of workspace') {
+            steps {
+                sh '''
+                echo 'Showing files in Jenkins WorkSpace'
+                ls -l /var/lib/jenkins/workspace/project1
+                '''
+                
+            }
+        }
+        
+        
+        stage('copy files in webserver') {
+            steps {
+                sh '''
+                cp /var/lib/jenkins/workspace/project1/*.* /var/www/html/
+                '''
+                
+            }
+        }
+        
+        
+    }
+}
